@@ -6,10 +6,7 @@
 package com.github.ucchyocean.lc3.bungee;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -371,8 +368,10 @@ public class BungeeEventListener implements Listener {
             // Japanizeの付加
             if ( !skipJapanize ) {
 
+                HashMap<String, String> dictionary = new HashMap<>(LunaChat.getAPI().getAllDictionary());
+                dictionary.putAll(LunaChat.getAPI().getPlayerAllDictionary(member.toString()));
                 String japanize = Japanizer.japanize(Utility.stripColorCode(message), config.getJapanizeType(),
-                        LunaChat.getAPI().getAllDictionary());
+                        dictionary);
                 if ( japanize.length() > 0 ) {
 
                     // NGワードのマスク

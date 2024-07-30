@@ -68,7 +68,11 @@ public class JapanizeConvertTask {
             keywords.addAll(LunaChat.getPlugin().getOnlinePlayerNames());
         }
         Map<String, String> dictionary =
-                LunaChat.getAPI().getAllDictionary();
+                new HashMap<>(LunaChat.getAPI().getAllDictionary());
+
+        if ( player != null ) {
+            dictionary.putAll(LunaChat.getAPI().getPlayerAllDictionary(player.toString()));
+        }
 
         // カラーコード削除、URL削除
         String deletedURL = Utility.stripColorCode(org.replaceAll(REGEX_URL, " "));

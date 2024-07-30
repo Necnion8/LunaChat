@@ -707,6 +707,27 @@ public class ChannelManager implements LunaChatAPI {
     }
 
     /**
+     * Japanize変換を行う
+     * @param message 変換するメッセージ
+     * @param type 変換タイプ
+     * @param player 発言者プレイヤー
+     * @return 変換後のメッセージ、ただしイベントでキャンセルされた場合はnullが返されるので注意
+     */
+    @Override
+    public String japanize(String message, JapanizeType type, ChannelMember player) {
+        if ( type == JapanizeType.NONE ) {
+            return message;
+        }
+
+        // Japanize変換
+        JapanizeConvertTask task = new JapanizeConvertTask(message, type, "%japanize", null, player);
+        if ( task.runSync() ) {
+            return task.getResult();
+        }
+        return null;
+    }
+
+    /**
      * 該当プレイヤーのJapanize変換をオン/オフする
      * @param playerName 設定するプレイヤー名
      * @param doJapanize Japanize変換するかどうか

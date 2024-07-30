@@ -90,7 +90,7 @@ public class McMMOBridge implements Listener {
                 String taskFormat = Utility.replaceColorCode(config.getJapanizeLine1Format());
 
                 String japanized = api.japanize(
-                        kanaTemp, config.getJapanizeType());
+                        kanaTemp, config.getJapanizeType(), player);
                 if ( japanized != null ) {
                     String temp = taskFormat.replace("%msg", message);
                     message = temp.replace("%japanize", japanized);

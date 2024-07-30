@@ -195,6 +195,15 @@ public interface LunaChatAPI {
     public String japanize(String message, JapanizeType type);
 
     /**
+     * Japanize変換を行う
+     * @param message 変換するメッセージ
+     * @param type 変換タイプ
+     * @param player 発言者プレイヤー
+     * @return 変換後のメッセージ、ただしイベントでキャンセルされた場合はnullが返されるので注意
+     */
+    public String japanize(String message, JapanizeType type, ChannelMember player);
+
+    /**
      * 該当プレイヤーのJapanize変換をオン/オフする
      * @param playerName 設定するプレイヤー名
      * @param doJapanize Japanize変換するかどうか

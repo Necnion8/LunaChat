@@ -6,6 +6,7 @@
 package com.github.ucchyocean.lc3;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -134,6 +135,28 @@ public interface LunaChatAPI {
      * @param key キー
      */
     public void removeDictionary(String key);
+
+    /**
+     * プレイヤーの辞書データを全て取得する。またはファイルからロードしてから取得する。
+     * @param playerId プレイヤー
+     * @return 辞書データ
+     */
+    public HashMap<String, String> getPlayerAllDictionary(String playerId);
+
+    /**
+     * 新しい辞書データをプレイヤーに追加する
+     * @param playerId プレイヤーID
+     * @param key キー
+     * @param value 値
+     */
+    public void setPlayerDictionary(String playerId, String key, String value);
+
+    /**
+     * 指定したキーの辞書データをプレイヤーから削除する
+     * @param playerId プレイヤーID
+     * @param key キー
+     */
+    public void removePlayerDictionary(String playerId, String key);
 
     /**
      * 該当のプレイヤーに関連するhidelistを取得する。

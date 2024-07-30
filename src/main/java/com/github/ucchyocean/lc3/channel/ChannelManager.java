@@ -32,18 +32,22 @@ public class ChannelManager implements LunaChatAPI {
     private static final String FILE_NAME_JAPANIZE = "japanize.yml";
     private static final String FILE_NAME_DICTIONARY = "dictionary.yml";
     private static final String FILE_NAME_HIDELIST = "hidelist.yml";
+    private static final String DIRECTORY_NAME_PLAYER_DICTIONARIES = "player_dictionaries";
+    private static final String FILE_NAME_PLAYER_DICTIONARY = "%player_id%.yml";
 
     private File fileDefaults;
     private File fileTemplates;
     private File fileJapanize;
     private File fileDictionary;
     private File fileHidelist;
+    private File directoryPlayerDictionaries;
     private HashMap<String, Channel> channels;
     private HashMap<String, String> defaultChannels;
     private HashMap<String, String> templates;
     private HashMap<String, Boolean> japanize;
     private HashMap<String, String> dictionary;
     private HashMap<String, List<ChannelMember>> hidelist;
+    private HashMap<String, HashMap<String, String>> playerDictionaries;
 
     /**
      * コンストラクタ
@@ -116,6 +120,16 @@ public class ChannelManager implements LunaChatAPI {
         for ( String key : configDictionary.getKeys(false) ) {
             dictionary.put(key, configDictionary.getString(key));
         }
+
+        // プレイヤーDictionariesのロード
+        directoryPlayerDictionaries = new File(LunaChat.getDataFolder(), DIRECTORY_NAME_PLAYER_DICTIONARIES);
+
+        if ( !directoryPlayerDictionaries.exists() ) {
+            //noinspection ResultOfMethodCallIgnored
+            directoryPlayerDictionaries.mkdirs();
+        }
+
+        playerDictionaries = new HashMap<>();
 
         // hideリストのロード
         fileHidelist = new File(LunaChat.getDataFolder(), FILE_NAME_HIDELIST);
@@ -219,6 +233,29 @@ public class ChannelManager implements LunaChatAPI {
                 config.set(key, dictionary.get(key));
             }
             config.save(fileDictionary);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * プレイヤーのDictionary設定を保存する
+     * @param playerId プレイヤーID
+     * @return 保存したかどうか
+     */
+    private boolean savePlayerDictionary(String playerId) {
+
+        try {
+            YamlConfig config = new YamlConfig();
+            if ( playerDictionaries.containsKey(playerId) ) {
+                for ( String key : playerDictionaries.get(playerId).keySet() ) {
+                    config.set(key, playerDictionaries.get(playerId).get(key));
+                }
+            }
+            File filePlayerDictionary = new File(directoryPlayerDictionaries, FILE_NAME_PLAYER_DICTIONARY.replace("%player_id%", playerId));
+            config.save(filePlayerDictionary);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -529,6 +566,55 @@ public class ChannelManager implements LunaChatAPI {
     public void removeDictionary(String key) {
         dictionary.remove(key);
         saveDictionary();
+    }
+
+    /**
+     * プレイヤーの辞書データを全て取得する。またはファイルからロードしてから取得する。
+     * @param playerId プレイヤー
+     * @return 辞書データ
+     */
+    public HashMap<String, String> getPlayerAllDictionary(String playerId) {
+        if ( !playerDictionaries.containsKey(playerId) ) {
+            HashMap<String, String> playerDictionary = new HashMap<>();
+            playerDictionaries.put(playerId, playerDictionary);
+
+            File filePlayerDictionary = new File(directoryPlayerDictionaries, FILE_NAME_PLAYER_DICTIONARY.replace("%player_id%", playerId));
+            // ロード
+            if ( filePlayerDictionary.exists() ) {
+                YamlConfig config = YamlConfig.load(filePlayerDictionary);  // TODO: getメソッドではなく、プレイヤーのログインで読み込む
+                for (String key : config.getKeys(false)) {
+                    playerDictionary.put(key, config.getString(key));
+                }
+            }
+        }
+        return playerDictionaries.get(playerId);
+    }
+
+    /**
+     * 新しい辞書データをプレイヤーに追加する
+     * @param playerId プレイヤーID
+     * @param key キー
+     * @param value 値
+     */
+    public void setPlayerDictionary(String playerId, String key, String value) {
+        if ( !playerDictionaries.containsKey(playerId) ) {
+            playerDictionaries.put(playerId, new HashMap<>());
+        }
+
+        playerDictionaries.get(playerId).put(key, value);
+        savePlayerDictionary(playerId);
+    }
+
+    /**
+     * 指定したキーの辞書データをプレイヤーから削除する
+     * @param playerId プレイヤーID
+     * @param key キー
+     */
+    public void removePlayerDictionary(String playerId, String key) {
+        if ( playerDictionaries.containsKey(playerId) ) {
+            playerDictionaries.get(playerId).remove(key);
+            savePlayerDictionary(playerId);
+        }
     }
 
     /**

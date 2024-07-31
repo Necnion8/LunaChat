@@ -1,6 +1,14 @@
 LunaChat
 ========
 
+このリポジトリでの変更
+- 個人用 Japanize辞書 `/dic` コマンドの追加
+- - 権限: `lunachat.dictionary` (default: true)
+
+ダウンロードは[こちら](https://github.com/Necnion8/LunaChat/releases)
+
+---
+
 Build Status : [![Build Status](https://travis-ci.org/ucchyocean/LunaChat.svg?branch=master)](https://travis-ci.org/ucchyocean/LunaChat)
 
 チャンネルチャットプラグイン<br />

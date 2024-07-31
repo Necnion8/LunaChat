@@ -199,6 +199,7 @@ usageSet1: '&6/%label% set default (player) [channel] &7- Sets the specified pla
 
 usageMessage: '&6/%label% (name) [message] &7- Starts a private chat with the specified player. '
 usageReply: '&6/%label% [message] &7- Reply to the received personal chat. '
+usagePlayerDictionary: '&6/%label% (add (word) (value)|remove (word)) &7- Japanize Adds a new word to the conversion dictionary or deletes the specified word. (for player)'
 
 usageJapanize: '&6/%label% on|off &7- Turn on/off the Japanize conversion of your chat.'
 usageJapanizeOther: '&6/%label% (player) on|off &7- Turn on/off the Japanize conversion of other player``s chat.'

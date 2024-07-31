@@ -2095,6 +2095,17 @@ public class Messages {
     }
 
     /**
+     * &6/%label% (add (word) (value)|remove (word)) &7- Japanize変換辞書に新しいワードを登録したり、指定したワードを削除したりします。(プレイヤー用)
+     */
+    public static String usagePlayerDictionary(Object label) {
+        String msg = resources.getString("usagePlayerDictionary");
+        if ( msg == null ) return "";
+        KeywordReplacer kr = new KeywordReplacer(msg);
+        kr.replace("%label%", label.toString());
+        return Utility.replaceColorCode(kr.toString());
+    }
+
+    /**
      * &e----- &6LunaChat %type% command (&c%num%&6/&c%max%&6) &e-----
      */
     public static String usageTop(Object type, Object num, Object max) {

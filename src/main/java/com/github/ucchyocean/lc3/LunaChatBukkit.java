@@ -14,6 +14,7 @@ import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
+import com.github.ucchyocean.lc3.command.*;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -30,10 +31,6 @@ import com.github.ucchyocean.lc3.bridge.VaultChatBridge;
 import com.github.ucchyocean.lc3.bukkit.BukkitEventListener;
 import com.github.ucchyocean.lc3.bukkit.BukkitEventSender;
 import com.github.ucchyocean.lc3.channel.ChannelManager;
-import com.github.ucchyocean.lc3.command.LunaChatCommand;
-import com.github.ucchyocean.lc3.command.LunaChatJapanizeCommand;
-import com.github.ucchyocean.lc3.command.LunaChatMessageCommand;
-import com.github.ucchyocean.lc3.command.LunaChatReplyCommand;
 import com.github.ucchyocean.lc3.member.ChannelMember;
 
 /**
@@ -59,6 +56,7 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
     private LunaChatMessageCommand messageCommand;
     private LunaChatReplyCommand replyCommand;
     private LunaChatJapanizeCommand lcjapanizeCommand;
+    private LunaChatDictionaryCommand dictionaryCommand;
 
     /**
      * プラグインが有効化されたときに呼び出されるメソッド
@@ -129,6 +127,7 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
         messageCommand = new LunaChatMessageCommand();
         replyCommand = new LunaChatReplyCommand();
         lcjapanizeCommand = new LunaChatJapanizeCommand();
+        dictionaryCommand = new LunaChatDictionaryCommand();
 
         // 期限チェッカータスクの起動
         expireCheckerTask = Bukkit.getScheduler().runTaskTimerAsynchronously(
@@ -170,6 +169,8 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
             return replyCommand.execute(ChannelMember.getChannelMember(sender), label, args);
         } else if ( command.getName().equals("japanize") ) {
             return lcjapanizeCommand.execute(ChannelMember.getChannelMember(sender), label, args);
+        } else if ( command.getName().equals("dictionary") ) {
+            return dictionaryCommand.execute(ChannelMember.getChannelMember(sender), label, args);
         }
 
         return false;
@@ -186,6 +187,8 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
         List<String> completeList = null;
         if ( command.getName().equals("lunachat") ) {
             completeList = lunachatCommand.onTabComplete(ChannelMember.getChannelMember(sender), label, args);
+        } else if ( command.getName().equals("dictionary") ) {
+            completeList = dictionaryCommand.onTabComplete(ChannelMember.getChannelMember(sender), label, args);
         }
         if ( completeList != null ) {
             return completeList;

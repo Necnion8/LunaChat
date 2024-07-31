@@ -13,16 +13,11 @@ import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
+import com.github.ucchyocean.lc3.bungee.*;
 import org.bstats.bungeecord.Metrics;
 
 import com.github.ucchyocean.lc3.bridge.BungeePermsBridge;
 import com.github.ucchyocean.lc3.bridge.LuckPermsBridge;
-import com.github.ucchyocean.lc3.bungee.BungeeEventListener;
-import com.github.ucchyocean.lc3.bungee.BungeeEventSender;
-import com.github.ucchyocean.lc3.bungee.JapanizeCommandBungee;
-import com.github.ucchyocean.lc3.bungee.LunaChatCommandBungee;
-import com.github.ucchyocean.lc3.bungee.MessageCommandBungee;
-import com.github.ucchyocean.lc3.bungee.ReplyCommandBungee;
 import com.github.ucchyocean.lc3.channel.ChannelManager;
 
 import net.md_5.bungee.api.ProxyServer;
@@ -104,6 +99,8 @@ public class LunaChatBungee extends Plugin implements PluginInterface {
                 new ReplyCommandBungee("reply", "", "r"));
         getProxy().getPluginManager().registerCommand(this,
                 new JapanizeCommandBungee("japanize", "", "jp"));
+        getProxy().getPluginManager().registerCommand(this,
+                new DictionaryCommandBungee("dictionary", "", "dic"));
 
         // リスナー登録
         getProxy().getPluginManager().registerListener(this, new BungeeEventListener(this));

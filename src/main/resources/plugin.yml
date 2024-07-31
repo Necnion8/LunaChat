@@ -65,6 +65,12 @@ commands:
            /<command> (player) (on|off) - turn on/off the japanize conversion of the specified player's chat.
     permission: lunachat.japanize
     permission-message: You don't have the permission "<permission>".
+  dictionary:
+    description: add/remove the word into the japanize dictionary (per player)
+    aliases: [dictionary, dic]
+    usage: /<command> (add (word) (value)|remove (word)) - add/remove the word into the japanize dictionary. (per player)
+    permission: lunachat.dictionary
+    permission-message: You don't have the permission "<permission>".
 
 permissions:
   lunachat.command:
@@ -142,6 +148,9 @@ permissions:
   lunachat.japanize:
     description: japanize command permission
     default: true
+  lunachat.dictionary:
+    description: dictionary command permission
+    default: true
   lunachat.allowcc:
     description: premission to use the color codes
     default: true
@@ -172,6 +181,7 @@ permissions:
       lunachat.reply: true
       lunachat.help: true
       lunachat.japanize: true
+      lunachat.dictionary: true
       lunachat.allowcc: true
     description: permissions for the general players
 

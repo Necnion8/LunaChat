@@ -199,6 +199,7 @@ usageSet1: '&6/%label% set default (player) [channel] &7- 指定したプレイ�
 
 usageMessage: '&6/%label% (name) [message] &7- 指定したプレイヤーとの個人チャットを開始します。'
 usageReply: '&6/%label% [message] &7- 受信した個人チャットに返信します。'
+usagePlayerDictionary: '&6/%label% (add (word) (value)|remove (word)) &7- Japanize変換辞書に新しいワードを登録したり、指定したワードを削除したりします。(プレイヤー用)'
 
 usageJapanize: '&6/%label% on|off &7- Turn on/off the Japanize conversion of your chat.'
 usageJapanizeOther: '&6/%label% (player) on|off &7- Turn on/off the Japanize conversion of other player''s chat.'
